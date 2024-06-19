@@ -20,9 +20,12 @@ class Main {
         this.updateFrame();
     }
 
+    /***
+     * Initializes the player object and listeners.
+     */
     playerInit() {
         this.player = new Player({
-            app: { token: "test" },
+            app: { token: "test" }, //JY0mLoHiX3lPTJaS
             mediaElement: document.querySelector("#media")
         });
 
@@ -33,9 +36,11 @@ class Main {
         });
     }
 
+    /***
+     * Loads the correct song (SUPERHERO / めろくる).
+     */
     loadSong(app) {
         if (!app.songUrl) {
-            // SUPERHERO / めろくる
             this.player.createFromSongUrl("https://piapro.jp/t/hZ35/20240130103028", {
                 video: {
                     // 音楽地図訂正履歴
@@ -50,6 +55,9 @@ class Main {
         }
     }
 
+    /***
+     * Loads in each lyric/character.
+     */
     loadLyrics(vid) {
         let lyrics = [];
         if (vid.firstChar) {
@@ -62,12 +70,18 @@ class Main {
         console.log(lyrics);
     }
 
+    /***
+     * Do updates based on time (in ms).
+     */
     updateTime(pos) {
-        //do updates based on time
+        //Do updates based on time 
         this.pos = pos;
         this.lastUpdateTime = Date.now();
     }
 
+    /***
+     * Do updates based on frames (in how-good-your-monitor-is).
+     */
     updateFrame() {
         //do updates based on frames
 
