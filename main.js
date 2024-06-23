@@ -1,14 +1,17 @@
 import { Player } from "textalive-app-api";
 
+
 class Main {
+    
     constructor() {
         //init canvas
-
+        this.canvasInit();
 
         //init player
         this.playerInit();
 
-        document.getElementById("view").addEventListener("click", () => function(p){ 
+        //currently set to click the canvas to start music
+        document.getElementById("canvas").addEventListener("click", () => function(p){ 
             if (p.isPlaying) {
                 p.requestPause();
             } else {
@@ -21,11 +24,27 @@ class Main {
     }
 
     /***
+     * Initializes the viewable canvas properties.
+     */
+    canvasInit() {
+        let canvas = document.getElementById("canvas");
+        canvas.style.background = "#ECFFDC"; // color is called nyanza :3
+
+        var window_height = window.innerHeight;
+        var window_width = window.innerWidth;
+
+        //make the canvas take up the entire screen uwu
+        // canvas.width = window_width;
+        // canvas.height = window_height;
+    }
+
+
+    /***
      * Initializes the player object and listeners.
      */
     playerInit() {
         this.player = new Player({
-            app: { token: "test" }, //JY0mLoHiX3lPTJaS
+            app: { token: "JY0mLoHiX3lPTJaS" },
             mediaElement: document.querySelector("#media")
         });
 
@@ -35,7 +54,6 @@ class Main {
             onTimeUpdate: (pos) => this.updateTime(pos)
         });
     }
-
     /***
      * Loads the correct song (SUPERHERO / めろくる).
      */
@@ -93,4 +111,5 @@ class Main {
 
 
 //start!
-let m = new Main()
+// Main();
+let m = new Main();
