@@ -1,0 +1,21 @@
+
+@font-face {
+    font-family: 'PixelMplus10-Regular'; /* Name your font family */
+    src: url('PixelMplus10-Regular.ttf'); /* Locate the .ttf file within your directory*/
+  }
+
+/* 歌詞 / Lyrics */
+#lyrics {
+    z-index: 0;
+    padding: 3em 0 5em 0;
+    line-height: 2em;
+    font-size: 36px;
+    font-family: "PixelMplus10-Regular", sans-serif;
+    color: #000000;
+    /* text-shadow: 2px 2px 3px #e4215a; */
+    user-select: none;
+    cursor: pointer;
+  
+    /* 歌詞をちょっと回転させる / Rotate text */
+    /* transform: rotateX(10deg) rotateY(-10deg); */
+  }
