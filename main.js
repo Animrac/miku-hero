@@ -1,8 +1,7 @@
 import { Player } from "textalive-app-api";
 
-
 class Main {
-    
+
     constructor() {
         //init canvas
         this.canvasInit();
@@ -11,7 +10,7 @@ class Main {
         this.playerInit();
 
         //currently set to click the canvas to start music
-        document.getElementById("canvas").addEventListener("click", () => function(p){ 
+        document.getElementById("canvas").addEventListener("click", () => function (p) {
             if (p.isPlaying) {
                 p.requestPause();
             } else {
@@ -34,18 +33,20 @@ class Main {
         var window_width = window.innerWidth;
 
         //make the canvas take up the entire screen uwu
-        // canvas.width = window_width;
-        // canvas.height = window_height;
-    }
+        canvas.width = window_width;
+        canvas.height = 600;
 
+        this.canvas = canvas;
+        this.context = this.canvas.getContext("2d");
+        this.context.font = "italic 16px Arial";
+    }
 
     /***
      * Initializes the player object and listeners.
      */
     playerInit() {
         this.player = new Player({
-            app: { token: "JY0mLoHiX3lPTJaS" },
-            mediaElement: document.querySelector("#media")
+            app: { token: "JY0mLoHiX3lPTJaS" }
         });
 
         this.player.addListener({
@@ -54,6 +55,7 @@ class Main {
             onTimeUpdate: (pos) => this.updateTime(pos)
         });
     }
+    
     /***
      * Loads the correct song (SUPERHERO / めろくる).
      */
@@ -81,34 +83,54 @@ class Main {
         if (vid.firstChar) {
             let ly = vid.firstChar;
             while (ly) {
-                lyrics.push(ly);
+                lyrics.push(new Lyric(ly));
                 ly = ly.next;
             }
         }
-        console.log(lyrics);
+
+        this.lyrics = lyrics;
     }
 
     /***
      * Do updates based on time (in ms).
      */
-    updateTime(pos) {
-        //Do updates based on time 
-        this.pos = pos;
-        this.lastUpdateTime = Date.now();
+    updateTime(timeStamp) {
+        this.timeStamp = timeStamp;
     }
 
     /***
      * Do updates based on frames (in how-good-your-monitor-is).
      */
     updateFrame() {
-        //do updates based on frames
+        //show lyrics
+        if (this.player.isPlaying && this.timeStamp > 0) {
+            this.showlyric();
+        }
 
         //may i have another?
         window.requestAnimationFrame(() => this.updateFrame());
     }
+
+    showlyric() {
+        if (!this.lyrics) return;
+
+        for (let i = 0; i < this.lyrics.length; i++) {
+            let ly = this.lyrics[i];
+            if (ly.startTime <= this.timeStamp) {
+                this.context.fillRect(i * 16, 120, 10, 10);
+                this.context.fillText(ly.text, i * 16, 100);
+            }
+        }
+    }
 }
 
-
+class Lyric {
+    constructor (data) {
+        this.text = data.text;
+        this.startTime = data.startTime;
+        this.endTime = data.endTime;
+    }
+}
 
 //start!
 // Main();
