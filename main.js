@@ -40,8 +40,7 @@ class Main {
         this.canvas.height = 600;
 
         this.context = this.canvas.getContext("2d");
-        // this.context.font = "italic 16px PixelMplus10-Regular";
-        this.context.font = "italic 16px Arial";
+        this.context.font = "32px PixelMplus10-Regular";
     }
 
     resizeCanvas() {
@@ -59,7 +58,8 @@ class Main {
         this.player.addListener({
             onAppReady: (app) => this.loadSong(app),
             onVideoReady: (v) => this.loadLyrics(v),
-            onTimeUpdate: (pos) => this.updateTime(pos)
+            onTimeUpdate: (pos) => this.updateTime(pos),
+            onTimerReady: () => document.getElementById("loadingOverlay").style.display = "none"
         });
     }
     
@@ -124,11 +124,11 @@ class Main {
     showlyric() {
         if (!this.lyrics) return; //Don't do this if no lyrics have been loaded.
         let step = 100; //How many ms make up one vertical slice (aka, a square)
-        let blockSize = 16; //Horizontal space taken up by each vertical slice.
+        let blockSize = 32; //Horizontal space taken up by each vertical slice.
         let lastBlockEnd = -1; //Comparison for right border of each given letter to prevent overlap.
         let lyricY = this.canvas.height - 50; //Vertical placement for lyric bar.
         let blockBaseY = lyricY - 50; //Vertical placement for floor of where squares will go.
-        let canvasUsedPercent = 0.8; //How much of the canvas is used, from 0-1.
+        let canvasUsedPercent = 0.6; //How much of the canvas is used, from 0-1.
 
         //Self-notes to remember how the math works.
         //cw = 2000
@@ -159,7 +159,7 @@ class Main {
                 //let xpos = (ly.startTime / step) * blockSize;
                 if (lastBlockEnd > xpos) xpos = lastBlockEnd + 1; //If char would overlap previous, bump it forward
                 lastBlockEnd = xpos + blockSize; //Set the right border to check for future overlap
-
+                
                 this.context.fillText(ly.text, xpos, lyricY); //Draw the lyric
             }
         }

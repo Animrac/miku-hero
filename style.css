@@ -1,9 +1,43 @@
 @font-face {
     font-family: 'PixelMplus10-Regular';
-    src: url('PixelMplus10-Regular.ttf'); 
+    src: url('PixelMplus10-Regular.ttf') format('truetype'); 
   }
 
-#lyrics {
+#context {
     font-family: "PixelMplus10-Regular", sans-serif;
     color: #000000;
 }
+
+#loadingOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0.3;
+    background: #000;
+    color: #fffc;
+    z-index: 5;
+    width: 100vw;
+    font-size: 40px;
+    text-align: center;
+    border-right: 1px solid #fff6;
+    font-family: 'PixelMplus10-Regular';
+  }
+
+/* lyrics animation can we do this*/
+@keyframes showLyrics {
+    0% {
+      transform: translate3d(0, 100%, 0);
+      opacity: 0;
+    }
+    100% {
+      transform: translate3d(0, 0, 0);
+      opacity: 1;
+    }
+  }
+
+  #canvas{
+    animation: showLyrics 0.5s;
+}
+  
