@@ -18,6 +18,9 @@ class Main {
             }
         }(this.player));
 
+        //allow for dynamic width
+        window.addEventListener("resize", () => this.resizeCanvas());
+
         //kickstart frame updates
         this.updateFrame();
     }
@@ -26,19 +29,19 @@ class Main {
      * Initializes the viewable canvas properties.
      */
     canvasInit() {
-        let canvas = document.getElementById("canvas");
-        canvas.style.background = "#ECFFDC"; // color is called nyanza :3
-
-        var window_height = window.innerHeight;
-        var window_width = window.innerWidth;
+        this.canvas = document.getElementById("canvas");
+        this.canvas.style.background = "#ECFFDC"; // color is called nyanza :3
 
         //make the canvas take up the entire screen uwu
-        canvas.width = window_width;
-        canvas.height = 600;
+        this.canvas.width = window.innerWidth;
+        this.canvas.height = 600;
 
-        this.canvas = canvas;
         this.context = this.canvas.getContext("2d");
         this.context.font = "italic 16px Arial";
+    }
+
+    resizeCanvas() {
+        this.canvas.width = window.innerWidth;
     }
 
     /***
@@ -87,7 +90,7 @@ class Main {
                 ly = ly.next;
             }
         }
-
+        console.log(lyrics);
         this.lyrics = lyrics;
     }
 
@@ -111,19 +114,57 @@ class Main {
         window.requestAnimationFrame(() => this.updateFrame());
     }
 
+    /**
+     * Shows lyrics and squares on canvas.
+     */
     showlyric() {
-        if (!this.lyrics) return;
+        if (!this.lyrics) return; //Don't do this if no lyrics have been loaded.
+        let step = 100; //How many ms make up one vertical slice (aka, a square)
+        let blockSize = 16; //Horizontal space taken up by each vertical slice.
+        let lastBlockEnd = -1; //Comparison for right border of each given letter to prevent overlap.
+        let lyricY = this.canvas.height - 50; //Vertical placement for lyric bar.
+        let blockBaseY = lyricY - 50; //Vertical placement for floor of where squares will go.
+        let canvasUsedPercent = 0.8; //How much of the canvas is used, from 0-1.
 
+        //Self-notes to remember how the math works.
+        //cw = 2000
+        //20 blocks (2000/100)
+        //last ly displayed: 2000 = ?/100 * 16 | 2000/16 * 100 | width/blockSize*step
+
+        //Start scrolling when math says to.
+        //Math: Current time - (utilized canvas width) / (block size) * (step)
+        let startStamp = this.timeStamp - ((this.canvas.width * canvasUsedPercent) / blockSize * step);
+        startStamp = Math.max(0, startStamp); //Default to 0 if we haven't used whole width yet
+
+        //Clear previous draw
+        this.context.clearRect(0,0, this.canvas.width, this.canvas.height);
+
+        //Draw rects
+        for (let i = 0; i < this.timeStamp; i += step) {
+            this.context.fillRect((i / step) * blockSize, blockBaseY, 10, 10); //Draw a square
+        }
+
+        //Draw lyrics
         for (let i = 0; i < this.lyrics.length; i++) {
-            let ly = this.lyrics[i];
-            if (ly.startTime <= this.timeStamp) {
-                this.context.fillRect(i * 16, 120, 10, 10);
-                this.context.fillText(ly.text, i * 16, 100);
+            let ly = this.lyrics[i]; //Get current lyric
+
+            //Lyrics are drawn when their timestamp is before the present, and after the left screen border
+            if (ly.startTime <= this.timeStamp && ly.startTime >= startStamp) {
+                let adjustedTime = ly.startTime - startStamp; //Adjust the draw position based on scroll
+                let xpos = (adjustedTime / step) * blockSize; //Adjust the draw position based on step/block size
+                //let xpos = (ly.startTime / step) * blockSize;
+                if (lastBlockEnd > xpos) xpos = lastBlockEnd + 1; //If char would overlap previous, bump it forward
+                lastBlockEnd = xpos + blockSize; //Set the right border to check for future overlap
+
+                this.context.fillText(ly.text, xpos, lyricY); //Draw the lyric
             }
         }
     }
 }
 
+/**
+ * Simple object type to contain relevant lyric data.
+ */
 class Lyric {
     constructor (data) {
         this.text = data.text;
@@ -133,5 +174,4 @@ class Lyric {
 }
 
 //start!
-// Main();
 let m = new Main();
