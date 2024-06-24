@@ -23,6 +23,9 @@ class Main {
 
         //kickstart frame updates
         this.updateFrame();
+
+        //hard-coded the DARN VOLUMe
+        this.player.volume = 8;
     }
 
     /***
@@ -37,6 +40,7 @@ class Main {
         this.canvas.height = 600;
 
         this.context = this.canvas.getContext("2d");
+        // this.context.font = "italic 16px PixelMplus10-Regular";
         this.context.font = "italic 16px Arial";
     }
 

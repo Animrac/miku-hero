@@ -1,0 +1,9 @@
+@font-face {
+    font-family: 'PixelMplus10-Regular';
+    src: url('PixelMplus10-Regular.ttf'); 
+  }
+
+#lyrics {
+    font-family: "PixelMplus10-Regular", sans-serif;
+    color: #000000;
+}
