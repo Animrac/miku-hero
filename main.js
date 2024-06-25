@@ -9,6 +9,9 @@ class Main {
         //init player
         this.playerInit();
 
+        //init volume
+        this.volumeInit();
+
         //currently set to click the canvas to start music
         document.getElementById("canvas").addEventListener("click", () => function (p) {
             if (p.isPlaying) {
@@ -25,7 +28,7 @@ class Main {
         this.updateFrame();
 
         //hard-coded the DARN VOLUMe
-        this.player.volume = 8;
+        this.player.volume = 3;
     }
 
     /***
@@ -36,15 +39,28 @@ class Main {
         this.canvas.style.background = "#ECFFDC"; // color is called nyanza :3
 
         //make the canvas take up the entire screen uwu
-        this.canvas.width = window.innerWidth;
-        this.canvas.height = 600;
+        // this.canvas.width = window.innerWidth;
+        // this.canvas.height = window.innerHeight;
+
+        this.canvasDiv = document.getElementById("canvasDiv");
+        this.canvas.width = this.canvasDiv.parentNode.clientWidth;
+        this.canvas.height = this.canvasDiv.parentNode.clientHeight;
 
         this.context = this.canvas.getContext("2d");
-        this.context.font = "32px PixelMplus10-Regular";
+        // this.context.font = "10vmin PixelMplus10-Regular";
+        this.context.font = "40px PixelMplus10-Regular";
     }
 
+    /***
+     * Resizes the canvas as the player changes the size of the window.
+     */
     resizeCanvas() {
-        this.canvas.width = window.innerWidth;
+        // this.canvas.width = window.innerWidth;
+
+        this.canvas = document.getElementById("canvas");
+        this.canvasDiv = document.getElementById("canvasDiv");
+        this.canvas.width = this.canvasDiv.parentNode.clientWidth;
+        this.canvas.height = this.canvasDiv.parentNode.clientHeight;
     }
 
     /***
@@ -57,10 +73,25 @@ class Main {
 
         this.player.addListener({
             onAppReady: (app) => this.loadSong(app),
-            onVideoReady: (v) => this.loadLyrics(v),
+            onVideoReady: (v) => {
+                this.loadLyrics(v);
+                document.getElementById("artist").textContent = "artist: " + this.player.data.song.artist.name;
+                document.getElementById("song").textContent = "song: " + this.player.data.song.name;
+            },
             onTimeUpdate: (pos) => this.updateTime(pos),
             onTimerReady: () => document.getElementById("loadingOverlay").style.display = "none"
         });
+    }
+
+    /***
+     * Initializes the volume slider.
+     */
+    volumeInit() {
+        this.volumeSlider = document.getElementById("volumeSlider").addEventListener("input", (event) => {
+            const volume = parseFloat(event.target.value);
+            this.player.volume = volume;
+            console.log("Volume set to:", volume);
+          });
     }
     
     /***
@@ -124,11 +155,11 @@ class Main {
     showlyric() {
         if (!this.lyrics) return; //Don't do this if no lyrics have been loaded.
         let step = 100; //How many ms make up one vertical slice (aka, a square)
-        let blockSize = 32; //Horizontal space taken up by each vertical slice.
+        let blockSize = 40; //Horizontal space taken up by each vertical slice.
         let lastBlockEnd = -1; //Comparison for right border of each given letter to prevent overlap.
         let lyricY = this.canvas.height - 50; //Vertical placement for lyric bar.
         let blockBaseY = lyricY - 50; //Vertical placement for floor of where squares will go.
-        let canvasUsedPercent = 0.6; //How much of the canvas is used, from 0-1.
+        let canvasUsedPercent = 0.4; //How much of the canvas is used, from 0-1.
 
         //Self-notes to remember how the math works.
         //cw = 2000
@@ -176,6 +207,7 @@ class Lyric {
         this.endTime = data.endTime;
     }
 }
+
 
 //start!
 let m = new Main();

@@ -8,15 +8,30 @@
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 
-<body>
+<script type="module" src="main.js"></script>
+
+<body style="padding: 0; margin:0">
     <div id="loadingOverlay">loading... s-sowwy ;;</div>
     <!-- <div id="view"></div>
 <div id="media"></div> -->
 
-    <canvas id="canvas"></canvas>
+    <div class="flex" style="flex-direction: row; display: flex; width: 98%; height: 98%; padding: 0; margin:0">
+        <div id="sideControls" style="border: solid black 3px; width: 20%; height: 100%; padding: 0; margin:5">
+            <div id="volumeDiv" style="text-align: center;">
+                <div>volume:</div>
+                <input type="range" id="volumeSlider" min="0" max="100" step="1" value="50">
+            </div>
 
+            <div id="infoDiv" style="text-align: center;">
+                <div id="artist">artist: <span>-</span></div>
+                <div id="song">song: <span>-</span></div>
+                <div id="song">created by: <span>-</span></div>
+            </div>
+        </div>
+        <div id="canvasDiv" style="border: solid black 3px;height: 100%;width:80%;padding-bottom:2%; padding: 0; margin:5">
+            <canvas id="canvas" style="height: 100%;width:100%"></canvas>
+        </div>
+    </div>
 </body>
-
-<script type="module" src="main.js"></script>
 
 </html>
