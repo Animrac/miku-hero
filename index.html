@@ -11,26 +11,44 @@
 <script type="module" src="main.js"></script>
 
 <body style="padding: 0; margin:0">
+
     <div id="loadingOverlay">loading... s-sowwy ;;</div>
-    <!-- <div id="view"></div>
-<div id="media"></div> -->
 
-    <div class="flex" style="flex-direction: row; display: flex; width: 98%; height: 98%; padding: 0; margin:0">
-        <div id="sideControls" style="border: solid black 3px; width: 20%; height: 100%; padding: 0; margin:5">
-            <div id="volumeDiv" style="text-align: center;">
+    <div id="media"></div>
+
+    <div class="flex" style="flex-direction: row; display: flex; width: 100%; height: 98%; padding: 0; margin:0">
+        <div id="sideControls" style="flex-direction: column; width: 20%; height: 100%; padding: 0; margin: 5 0 0 5; border: solid black 3px;">
+            <!-- <div id="volumeDiv" style="text-align: center; border: solid black 3px"> -->
+            <div id="volumeDiv" style="text-align: center; width: 90%">
                 <div>volume:</div>
-                <input type="range" id="volumeSlider" min="0" max="100" step="1" value="50">
+                <input type="range" id="volumeSlider" min="0" max="100" step="1" value="3" style="accent-color: black;">
             </div>
 
-            <div id="infoDiv" style="text-align: center;">
-                <div id="artist">artist: <span>-</span></div>
-                <div id="song">song: <span>-</span></div>
-                <div id="song">created by: <span>-</span></div>
+            <div id="buttonPauseDiv" style="text-align: center;">
+                <button type="buttonPause">PAUSE ICON</button>
+            </div>
+            <div id="buttonHeroDiv" style="text-align: center;">
+                <button type="buttonHero">HERO MODE BUT THIS MIGHT JUST BE SHOWN WHEN YOU DIE</button>
+            </div>
+
+            <!-- <div id="infoDiv" style="text-align: center; border: solid black 3px; margin: 5px 0px"> -->
+            <div id="infoDiv" style="text-align: center; flex-direction: column;">
+                <div>song title: </div>
+                <div id="song"> </div>
+                <div>song artist: </div>
+                <div id="artist"> </div>
+                <div>created by: </div>
+                <div id="creator"> </div>
             </div>
         </div>
-        <div id="canvasDiv" style="border: solid black 3px;height: 100%;width:80%;padding-bottom:2%; padding: 0; margin:5">
-            <canvas id="canvas" style="height: 100%;width:100%"></canvas>
+
+        <div id="canvasDiv" style="border: solid black 3px;height: 100%;width:80%;padding-bottom:2%; padding: 0; margin:5; ">
+            <div id="playOverlay" style="height:100%; width:100%; display: flex; justify-content: center; align-items: center;">
+                <img id="mouseGraphic" src="images/mouse.gif">
+            </div>
+            <canvas id="canvas"></canvas>
         </div>
+
     </div>
 </body>
 

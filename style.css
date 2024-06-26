@@ -25,6 +25,25 @@
     font-family: 'PixelMplus10-Regular';
   }
 
+#playOverlay {
+  /* background: #c7c7c7; */
+  text-align: center;
+  font-family: 'PixelMplus10-Regular';
+}
+
+#media {
+    position: absolute;
+    left: 10px;
+    bottom: 10px;
+    z-index: 2;
+    width: calc(80px + 16vmin);
+  }
+
+img {
+  pointer-events: none; 
+  user-select: none;
+}
+
 /* lyrics animation can we do this
 @keyframes showLyrics {
     0% {

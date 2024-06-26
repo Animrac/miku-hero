@@ -12,23 +12,14 @@ class Main {
         //init volume
         this.volumeInit();
 
-        //currently set to click the canvas to start music
-        document.getElementById("canvas").addEventListener("click", () => function (p) {
-            if (p.isPlaying) {
-                p.requestPause();
-            } else {
-                p.requestPlay();
-            }
-        }(this.player));
+        //init buttons
+        this.buttonInit();
 
         //allow for dynamic width
         window.addEventListener("resize", () => this.resizeCanvas());
 
         //kickstart frame updates
         this.updateFrame();
-
-        //hard-coded the DARN VOLUMe
-        this.player.volume = 3;
     }
 
     /***
@@ -36,7 +27,7 @@ class Main {
      */
     canvasInit() {
         this.canvas = document.getElementById("canvas");
-        this.canvas.style.background = "#ECFFDC"; // color is called nyanza :3
+        // this.canvas.style.background = "#ECFFDC"; // color is called nyanza :3
 
         //make the canvas take up the entire screen uwu
         // this.canvas.width = window.innerWidth;
@@ -47,7 +38,6 @@ class Main {
         this.canvas.height = this.canvasDiv.parentNode.clientHeight;
 
         this.context = this.canvas.getContext("2d");
-        // this.context.font = "10vmin PixelMplus10-Regular";
         this.context.font = "40px PixelMplus10-Regular";
     }
 
@@ -55,12 +45,11 @@ class Main {
      * Resizes the canvas as the player changes the size of the window.
      */
     resizeCanvas() {
-        // this.canvas.width = window.innerWidth;
-
         this.canvas = document.getElementById("canvas");
         this.canvasDiv = document.getElementById("canvasDiv");
         this.canvas.width = this.canvasDiv.parentNode.clientWidth;
         this.canvas.height = this.canvasDiv.parentNode.clientHeight;
+        this.context.font = "40px PixelMplus10-Regular";
     }
 
     /***
@@ -68,18 +57,21 @@ class Main {
      */
     playerInit() {
         this.player = new Player({
-            app: { token: "JY0mLoHiX3lPTJaS" }
+            app: { token: "JY0mLoHiX3lPTJaS" },
+            mediaElement: document.getElementById("media")
         });
 
         this.player.addListener({
             onAppReady: (app) => this.loadSong(app),
             onVideoReady: (v) => {
                 this.loadLyrics(v);
-                document.getElementById("artist").textContent = "artist: " + this.player.data.song.artist.name;
-                document.getElementById("song").textContent = "song: " + this.player.data.song.name;
+                document.getElementById("artist").textContent = this.player.data.song.artist.name;
+                document.getElementById("song").textContent = this.player.data.song.name;
             },
             onTimeUpdate: (pos) => this.updateTime(pos),
-            onTimerReady: () => document.getElementById("loadingOverlay").style.display = "none"
+            onTimerReady: () => {
+                document.getElementById("loadingOverlay").style.display = "none"
+            }
         });
     }
 
@@ -90,10 +82,36 @@ class Main {
         this.volumeSlider = document.getElementById("volumeSlider").addEventListener("input", (event) => {
             const volume = parseFloat(event.target.value);
             this.player.volume = volume;
-            console.log("Volume set to:", volume);
           });
+          //initial volume
+          this.player.volume = 3;
     }
     
+    /***
+     * Initializes the play button.
+     */
+    buttonInit() {
+        // document.getElementById("buttonPlay").addEventListener("click", () => function (p) {
+        //     p.requestPlay();
+        //     document.getElementById("playOverlay").style.display = "none"
+        // }(this.player));
+
+        document.getElementById("playOverlay").addEventListener("click", () => function (p) {
+                p.requestPlay();
+                document.getElementById("playOverlay").style.display = "none"
+        }(this.player));
+
+        //currently set to click the canvas to pause music
+        document.getElementById("canvas").addEventListener("click", () => function (p) {
+            if (p.isPlaying) {
+                p.requestPause();
+            } else {
+                p.requestPlay();
+            }
+        }(this.player));
+
+    }
+
     /***
      * Loads the correct song (SUPERHERO / めろくる).
      */
@@ -157,8 +175,8 @@ class Main {
         let step = 100; //How many ms make up one vertical slice (aka, a square)
         let blockSize = 40; //Horizontal space taken up by each vertical slice.
         let lastBlockEnd = -1; //Comparison for right border of each given letter to prevent overlap.
-        let lyricY = this.canvas.height - 50; //Vertical placement for lyric bar.
-        let blockBaseY = lyricY - 50; //Vertical placement for floor of where squares will go.
+        let lyricY = this.canvas.height - 120; //Vertical placement for lyric bar.
+        let blockBaseY = lyricY - 80; //Vertical placement for floor of where squares will go.
         let canvasUsedPercent = 0.4; //How much of the canvas is used, from 0-1.
 
         //Self-notes to remember how the math works.
@@ -176,7 +194,7 @@ class Main {
 
         //Draw rects
         for (let i = 0; i < this.timeStamp; i += step) {
-            this.context.fillRect((i / step) * blockSize, blockBaseY, 10, 10); //Draw a square
+            this.context.fillRect((i / step) * blockSize, blockBaseY, 39, 39); //Draw a square
         }
 
         //Draw lyrics
