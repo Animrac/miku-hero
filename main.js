@@ -6,6 +6,8 @@ class Main {
     constructor() {
         this.step = 100; //How many ms make up one vertical slice (aka, a square)
         this.blockSize = 40; //Horizontal space taken up by each vertical slice.
+        this.counter = 1;
+        // this.animationSwitch = false;
 
         //init canvas
         this.canvasInit();
@@ -67,6 +69,7 @@ class Main {
                 this.loadLyrics(v);
                 document.getElementById("artist").textContent = this.player.data.song.artist.name;
                 document.getElementById("song").textContent = this.player.data.song.name;
+
             },
             onTimeUpdate: (pos) => this.updateTime(pos),
             onTimerReady: () => {
@@ -182,6 +185,12 @@ class Main {
             this.showBg();
             this.showLyric();
             this.showUser();
+            // if (this.animationSwitch == false) {
+            //     setInterval(() => {
+            //         this.showUser();
+            //     }, 100);
+            //     this.animationSwitch = true;
+            // }
         }
 
         //may i have another?
@@ -271,8 +280,26 @@ class Main {
     }
 
     showUser() {
-        this.context.drawImage(this.puhplaya, this.canvas.width/2 + this.user.x, this.canvas.height/2 + this.user.y);
+		console.log(this.counter);
+		if(this.counter == 8) {this.counter = 1};
+		// console.log("images/rin/rin" + counter + ".png");
+
+        let canvas = document.getElementById('canvas');
+        let ctx = canvas.getContext('2d');
+        let img = new Image;
+        img.src = 'images/rin/rin' + this.counter + '.png';
+        // img.onload = function(){
+            ctx.drawImage(img, 500, 500);
+        // };
+		this.counter++;
+		
+		// I set the interval to 100 ms, increase or decrease as per your need.
+		// If you don't want loop use clearTimeout()
+		
+
+        // this.context.drawImage(this.puhplaya, this.canvas.width/2 + this.user.x, this.canvas.height/2 + this.user.y);
     }
+
 }
 
 /**
