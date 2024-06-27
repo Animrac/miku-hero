@@ -6,6 +6,7 @@ class Main {
     constructor() {
         this.step = 80; //How many ms make up one vertical slice (aka, a square)
         this.blockSize = 40; //Horizontal space taken up by each vertical slice.
+        this.songDuration = 200_000; //Song length in ms. (Hardcoded close-enough value atm)
 
         //init canvas
         this.canvasInit();
@@ -24,7 +25,7 @@ class Main {
 
         this.bgInit();
 
-        this.user = new User(this, this.canvas.height - 120);
+        this.user = new User(this, this.canvas.height - 120, this.songDuration);
 
         //kickstart frame updates
         this.updateFrame();
@@ -113,7 +114,6 @@ class Main {
                 this.user.jump(this.timeStamp);
             }
         });
-
     }
 
     bgInit() {
@@ -162,18 +162,30 @@ class Main {
      */
     updateTime(timeStamp) {
         this.timeStamp = timeStamp;
+
+        //If we're within 3s of end, mark it.
+        if (Math.abs(this.timeStamp - this.songDuration) < 3000) this.playFinish = true;
     }
 
     /***
      * Do updates based on frames (in how-good-your-monitor-is).
      */
     updateFrame() {
-        //show lyrics
-        if (this.player.isPlaying || this.timeStamp > 0) {  
+        //What to draw during normal play.
+        if ((this.player.isPlaying || this.timeStamp > 0) && !this.playFinish) {  
             this.context.clearRect(0,0, this.canvas.width, this.canvas.height); //Clear screen.
             this.showBg();
             this.showLyric();
             this.showUser();
+
+        //What to draw when play is complete.
+        } else if (this.playFinish) {
+            console.log('fin ' + this.playFinish);
+            this.context.clearRect(0,0, this.canvas.width, this.canvas.height); //Clear screen.
+            this.showBg();
+            this.showLyric();
+            this.showUser();
+            this.context.fillText('Thank you for playing!', this.canvas.width * 0.5, this.canvas.height * 0.5);
         }
 
         //may i have another?
@@ -236,6 +248,8 @@ class Main {
                 //this.context.fillRect((i / step) * blockSize, blockBaseY, 39, 39); //Draw a square
             }
         }
+
+        this.context.fillStyle = "black"; //Reset fade.
     }
 
     /**
@@ -255,7 +269,7 @@ class Main {
     showBg() {
         this.context.drawImage(this.bg, this.bgWidth, 0);
         this.context.drawImage(this.bg, this.bgWidth + this.canvas.width, 0);
-        if (this.player.isPlaying) this.bgWidth -= this.scrollSpeed; //Don't scroll if paused.
+        if (this.player.isPlaying || this.playFinish) this.bgWidth -= this.scrollSpeed; //Don't scroll if paused.
         if (Math.abs(this.bgWidth) >= this.canvas.width) {
             this.bgWidth = 0;
         }
