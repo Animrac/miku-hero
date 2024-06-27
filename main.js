@@ -4,7 +4,7 @@ import { User } from "./user.js";
 class Main {
 
     constructor() {
-        this.step = 100; //How many ms make up one vertical slice (aka, a square)
+        this.step = 80; //How many ms make up one vertical slice (aka, a square)
         this.blockSize = 40; //Horizontal space taken up by each vertical slice.
 
         //init canvas
@@ -24,7 +24,7 @@ class Main {
 
         this.bgInit();
 
-        this.user = new User(this);
+        this.user = new User(this, this.canvas.height - 120);
 
         //kickstart frame updates
         this.updateFrame();
@@ -37,8 +37,6 @@ class Main {
         this.canvasDiv = document.getElementById("canvasDiv");
         this.canvas = document.getElementById("canvas");
         this.context = this.canvas.getContext("2d");
-        
-        // this.canvas.style.background = "#ECFFDC"; // color is called nyanza :3
         
         this.resizeCanvas();
     }
@@ -112,9 +110,7 @@ class Main {
         //click the canvas two jwump owo
         canvas.addEventListener("click", () => {
             if (this.player.isPlaying) {
-                // this.user.jump();
-                this.user.y -= 50;
-                console.log("jump");
+                this.user.jump(this.timeStamp);
             }
         });
 
@@ -125,9 +121,6 @@ class Main {
         this.bg.src = "images/mountainorsomething.png"
         this.scrollSpeed = 1;
         this.bgWidth = 0;
-
-        this.puhplaya = new Image();
-        this.puhplaya.src = "images/rin.gif";
     }
 
     /***
@@ -176,8 +169,7 @@ class Main {
      */
     updateFrame() {
         //show lyrics
-        if (this.player.isPlaying && this.timeStamp > 0) {
-            
+        if (this.player.isPlaying || this.timeStamp > 0) {  
             this.context.clearRect(0,0, this.canvas.width, this.canvas.height); //Clear screen.
             this.showBg();
             this.showLyric();
@@ -209,7 +201,6 @@ class Main {
         }
         this.lastLy = lyi; //Stash it's index for next time to be faster in search.
         
-        
         //Determine x coordinate of start and end block.
         let firstX = -(startPixel % this.blockSize);
         let lastX = this.canvas.width + this.blockSize;
@@ -229,7 +220,7 @@ class Main {
                 this.context.fillText(ly.text, i, lyricY); //Draw the lyric.
                 prevLy = ly; //Stash previous for possible fadeout.
                 lyi++; //Move index.
-            } else if (prevLy && prevLy.text != '”' && this.timeToPixel(prevLy.endTime) > (i + startPixel + this.blockSize)) {
+            } else if (prevLy && prevLy.text != '”' && this.timeToPixel(prevLy.endTime) > (i + startPixel)) {
                 //Fade between 100 & 220.
                 this.context.fillStyle = `rgb(
                     ${Math.min(shading, 220)}
@@ -241,7 +232,7 @@ class Main {
             } else { //Show a block instead.
                 this.context.fillStyle = "black"; //Reset fade.
                 shading = 100;
-                this.context.fillText('▢', i, lyricY); //Draw the square
+                this.context.fillText('⛾', i, lyricY); //Draw the square ▢
                 //this.context.fillRect((i / step) * blockSize, blockBaseY, 39, 39); //Draw a square
             }
         }
@@ -264,14 +255,18 @@ class Main {
     showBg() {
         this.context.drawImage(this.bg, this.bgWidth, 0);
         this.context.drawImage(this.bg, this.bgWidth + this.canvas.width, 0);
-        this.bgWidth -= this.scrollSpeed;
+        if (this.player.isPlaying) this.bgWidth -= this.scrollSpeed; //Don't scroll if paused.
         if (Math.abs(this.bgWidth) >= this.canvas.width) {
             this.bgWidth = 0;
         }
     }
 
     showUser() {
-        this.context.drawImage(this.puhplaya, this.canvas.width/2 + this.user.x, this.canvas.height/2 + this.user.y);
+        if (this.player.isPlaying) {
+            this.user.doJump(this.timeStamp, this.canvas.height - 120);
+        }
+        
+        this.user.draw(this.context)
     }
 }
 
