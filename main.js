@@ -1,4 +1,5 @@
 import { Player } from "textalive-app-api";
+import { User } from "./user.js";
 
 class Main {
 
@@ -20,6 +21,10 @@ class Main {
 
         //allow for dynamic width
         window.addEventListener("resize", () => this.resizeCanvas());
+
+        this.bgInit();
+
+        this.user = new User(this);
 
         //kickstart frame updates
         this.updateFrame();
@@ -75,8 +80,7 @@ class Main {
      */
     volumeInit() {
         this.volumeSlider = document.getElementById("volumeSlider").addEventListener("input", (event) => {
-            const volume = parseFloat(event.target.value);
-            this.player.volume = volume;
+            this.player.volume = parseFloat(event.target.value);
           });
           //initial volume
           this.player.volume = 3;
@@ -86,23 +90,44 @@ class Main {
      * Initializes the play button.
      */
     buttonInit() {
-        // document.getElementById("buttonPlay").addEventListener("click", () => function (p) {
-        //     p.requestPlay();
-        //     document.getElementById("playOverlay").style.display = "none"
-        // }(this.player));
+        let playOverlay = document.getElementById("playOverlay");
+        let buttonPlayPause = document.getElementById("buttonPlayPause");
+        let canvas = document.getElementById("canvas");
+        
+        playOverlay.addEventListener("click", () => {
+                this.player.requestPlay();
+                playOverlay.style.display = "none"
+        });
 
-        document.getElementById("playOverlay").addEventListener("click", () => {
-            this.player.requestPlay();
-            document.getElementById("playOverlay").style.display = "none";
-        });        
-
-        document.getElementById("canvas").addEventListener("click", () => {
+        buttonPlayPause.addEventListener("click", () => {
             if (this.player.isPlaying) {
                 this.player.requestPause();
+                buttonPlayPause.textContent = "PLAY ICON"
             } else {
                 this.player.requestPlay();
+                buttonPlayPause.textContent = "PAUSE ICON"
             }
         });
+
+        //click the canvas two jwump owo
+        canvas.addEventListener("click", () => {
+            if (this.player.isPlaying) {
+                // this.user.jump();
+                this.user.y -= 50;
+                console.log("jump");
+            }
+        });
+
+    }
+
+    bgInit() {
+        this.bg = new Image();
+        this.bg.src = "images/mountainorsomething.png"
+        this.scrollSpeed = 1;
+        this.bgWidth = 0;
+
+        this.puhplaya = new Image();
+        this.puhplaya.src = "images/rin.gif";
     }
 
     /***
@@ -152,7 +177,11 @@ class Main {
     updateFrame() {
         //show lyrics
         if (this.player.isPlaying && this.timeStamp > 0) {
+            
+            this.context.clearRect(0,0, this.canvas.width, this.canvas.height); //Clear screen.
+            this.showBg();
             this.showLyric();
+            this.showUser();
         }
 
         //may i have another?
@@ -180,7 +209,6 @@ class Main {
         }
         this.lastLy = lyi; //Stash it's index for next time to be faster in search.
         
-        this.context.clearRect(0,0, this.canvas.width, this.canvas.height); //Clear screen.
         
         //Determine x coordinate of start and end block.
         let firstX = -(startPixel % this.blockSize);
@@ -231,6 +259,19 @@ class Main {
      */
     pixelToTime(pixel) {
         return pixel / this.blockSize * this.step;
+    }
+    
+    showBg() {
+        this.context.drawImage(this.bg, this.bgWidth, 0);
+        this.context.drawImage(this.bg, this.bgWidth + this.canvas.width, 0);
+        this.bgWidth -= this.scrollSpeed;
+        if (Math.abs(this.bgWidth) >= this.canvas.width) {
+            this.bgWidth = 0;
+        }
+    }
+
+    showUser() {
+        this.context.drawImage(this.puhplaya, this.canvas.width/2 + this.user.x, this.canvas.height/2 + this.user.y);
     }
 }
 
