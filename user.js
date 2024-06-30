@@ -5,9 +5,14 @@ export class User {
         this.height = 200;
         this.xx = 0;
         this.yy = initialHeight - this.height - 80;
+        this.counter = 1;
         
         this.puhplaya = new Image();
-        this.puhplaya.src = "./images/rin.gif";
+        this.walkingLoop = setInterval(() => {
+            if(this.counter == 9) {this.counter = 1};
+            this.puhplaya.src = 'images/rin/rin' + this.counter + '.png';
+            this.counter++;
+        }, 70);
         
         this.jumpDuration = 400; //how long until you stop going up (ms)
         this.jumpPower = 30; //how high you jump (weird magic number)
@@ -25,6 +30,7 @@ export class User {
     jump(time) {
         //Only jump if there's time left to do so, and we aren't already jumping.
         if (time < this.finalJump && time > (this.jumpTime + this.jumpDuration)) {
+            clearInterval(this.walkingLoop);
             this.upward = true;
             this.jumpScale = 1;
             this.jumpTime = time + this.jumpDuration;
@@ -46,7 +52,14 @@ export class User {
         if (this.upward) { //We goin up?
             this.yy -= this.jumpPower * Math.max(0.05, this.jumpScale);
             this.jumpScale *= 0.9;
-            if (this.jumpTime < time) this.upward = false;
+            if (this.jumpTime < time) {
+                this.upward = false;
+                this.walkingLoop = setInterval(() => {
+                    if(this.counter == 9) {this.counter = 1};
+                    this.puhplaya.src = 'images/rin/rin' + this.counter + '.png';
+                    this.counter++;
+                }, 70);
+            };
 
         //If our jump power isn't in range of the floor, fall.
         //Jump power used instead of == equality to account for weirdness.
