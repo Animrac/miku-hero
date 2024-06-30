@@ -52,6 +52,8 @@ export class User {
         if (this.upward) { //We goin up?
             this.yy -= this.jumpPower * Math.max(0.05, this.jumpScale);
             this.jumpScale *= 0.9;
+            if (this.jumpScale > 1) this.jumpScale = 1;
+
             if (this.jumpTime < time) {
                 this.upward = false;
                 this.walkingLoop = setInterval(() => {
@@ -66,6 +68,7 @@ export class User {
         } else if (Math.abs(this.yy - floor) > (this.jumpPower * 0.6)) {
             this.yy += this.jumpPower * Math.max(0.05, this.jumpScale);
             this.jumpScale /= 0.9;
+            if (this.jumpScale > 1) this.jumpScale = 1;
         }
     }
 
