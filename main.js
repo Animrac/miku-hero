@@ -64,8 +64,8 @@ class Main {
             onAppReady: (app) => this.loadSong(app),
             onVideoReady: (v) => {
                 this.loadLyrics(v);
-                document.getElementById("artist").textContent = this.player.data.song.artist.name;
-                document.getElementById("song").textContent = this.player.data.song.name;
+                // document.getElementById("artist").textContent = this.player.data.song.artist.name;
+                // document.getElementById("song").textContent = this.player.data.song.name;
             },
             onTimeUpdate: (pos) => this.updateTime(pos),
             onTimerReady: () => {
@@ -90,6 +90,7 @@ class Main {
      */
     buttonInit() {
         let playOverlay = document.getElementById("playOverlay");
+        let pauseOverlay = document.getElementById("pauseOverlay");
         let buttonPlayPause = document.getElementById("buttonPlayPause");
         let canvas = document.getElementById("canvas");
         
@@ -101,10 +102,18 @@ class Main {
         buttonPlayPause.addEventListener("click", () => {
             if (this.player.isPlaying) {
                 this.player.requestPause();
-                buttonPlayPause.textContent = "PLAY ICON"
+                buttonPlayPause.src = "images/playbutton.png";
+                clearInterval(this.user.walkingLoop);
+                pauseOverlay.style.display = "contents";
             } else {
                 this.player.requestPlay();
-                buttonPlayPause.textContent = "PAUSE ICON"
+                this.user.walkingLoop = setInterval(() => {
+                    if(this.user.counter == 9) {this.user.counter = 1};
+                    this.user.puhplaya.src = 'images/rin/rin' + this.user.counter + '.png';
+                    this.user.counter++;
+                }, 70);
+                pauseOverlay.style.display = "none";
+                buttonPlayPause.src = "images/pausebutton.png";
             }
         });
 
