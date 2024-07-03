@@ -12,59 +12,81 @@
 
 <body style="padding: 0; margin:0; background-color:black">
 
-    <div id="loadingOverlay">
+    <div id="loadingOverlay" class="centerItems" >
         <img id="loadingGraphic" src="images/loading.gif">
     </div>
 
-    <div id="media"></div>
+    <!--<div id="media"></div>-->
 
     <div class="flex" style="flex-direction: row; display: flex; width: 100%; height: 98%; padding: 0; margin:0">
         <div id="sideControlsLeft"
-            style="flex-direction: column; width: 20%; height: 100%; padding: 0; margin: 5 0 0 5; border: solid black 3px;background-color:white">
+             style="flex-direction: column;
+            width: 15%;
+            height: 100%;
+            padding: 0;
+            margin: 5 0 0 5;
+            border: solid black 5px;
+            background-color:white;
+            border-radius: 60px 0px 0px 60px;">
 
-            <div class="grid-container" id="buttonGrid" style="width: 100%;">
-                     <div class="grid-item"></div>
-                    <input type="image" class="grid-item" src="images/pausebutton.png" name="pauseGame" id="buttonPlayPause" style="width: 100%;" />
-                    <div class="grid-item"></div>
-                    <input type="image" class="grid-item" src="images/playbutton.png" name="playGame" id="playbutton" style="width: 100%;" />
-                    <div class="grid-item"></div>
-                    <input type="image" class="grid-item" src="images/helpbutton.png" name="helpGame" id="helpbutton" style="width: 100%;" />
-                    <div class="grid-item"></div>
-                    <input type="image" class="grid-item" src="images/resetbutton.png" name="resetGame" id="resetbutton" style="width: 100%;" />
-                    <div class="grid-item"></div>
+            <div class="grid-container" id="buttonGrid" style="width: 100%; margin-top: 15%; margin-bottom: 15%">
+                <div class="grid-item"></div>
+                <input type="image" class="grid-item" src="images/pausebutton.png" name="pauseGame" id="buttonPause" style="width: 100%;" />
+                <!-- <input type="image" class="grid-item" src="images/pausebutton.png" name="pauseGame" id="buttonPlayPause" style="width: 100%;" /> -->
+                <div class="grid-item"></div>
+                <input type="image" class="grid-item" src="images/playbutton.png" name="playGame" id="buttonPlay" style="width: 100%;" />
+                <div class="grid-item"></div>
+                <input type="image" class="grid-item" src="images/helpbutton.png" name="helpGame" id="buttonHelp" style="width: 100%;" />
+                <div class="grid-item"></div>
+                <input type="image" class="grid-item" src="images/resetbutton.png" name="resetGame" id="buttonReset" style="width: 100%;" />
+                <div class="grid-item"></div>
             </div>
+
+            <!-- <div id="lyricsDiv" style="border: solid black 10px; height: 30%; margin: 10px; "></div> -->
+
+            <!--<div id="videoDiv" style="border: solid black 10px; height: 10%; margin: 10px; "></div>-->
+
             <!-- <div id="volumeDiv" style="text-align: center; border: solid black 3px"> -->
-            <div id="volumeDiv" style="text-align: center; width: 100%;">
-                <div>volume:</div>
-                <input type="range" id="volumeSlider" min="0" max="100" step="1" value="3" style="accent-color: black;">
+            <div id="volumeDiv" style="flex-direction: column; text-align: center; width: 50%; display: flex; height: 40%;">
+                <input type="range" id="volumeSlider" min="0" max="100" step="1" value="3" style="accent-color: black; height: 85%; writing-mode: vertical-lr; direction: rtl;
+    appearance: slider-vertical; " orient="vertical">
+                <img src="images/volumeIcon.png" />
             </div>
+
             <!-- <div id="buttonHeroDiv" style="text-align: center;">
-                <button type="buttonHero">HERO MODE BUT THIS MIGHT JUST BE SHOWN WHEN YOU DIE</button>
-            </div> -->
-
+        <button type="buttonHero">HERO MODE BUT THIS MIGHT JUST BE SHOWN WHEN YOU DIE</button>
+    </div> -->
             <!-- <div id="infoDiv" style="text-align: center; border: solid black 3px; margin: 5px 0px"> -->
-
             <!-- <div id="infoDiv" style="text-align: center; flex-direction: column;">
-                <div>song title: </div>
-                <div id="song"> </div>
-                <div>song artist: </div>
-                <div id="artist"> </div>
-                <div>created by: </div>
-                <div id="creator"> </div>
-            </div> -->
+        <div>song title: </div>
+        <div id="song"> </div>
+        <div>song artist: </div>
+        <div id="artist"> </div>
+        <div>created by: </div>
+        <div id="creator"> </div>
+    </div> -->
         </div>
 
         <div id="canvasDiv"
-            style="flex-direction: column; border: solid black 3px;height: 100%;width:80%;padding-bottom:2%; padding: 0; margin:5;background-color:white ">
-            <div id="playOverlay" style="justify-content: center; align-items: center;">
+            style="flex-direction: column; border: solid black 5px; height: 100%; width: 85%; padding-bottom: 2%; padding: 0; margin: 5px; background-color: white; border-radius: 0px 65px 65px 0px; ">
+            
+            <div id="bar"></div>
+
+            <div id="playOverlay" class="centerItems">
                 <img id="mouseGraphic" src="images/mouse.gif">
             </div>
-            <div id="pauseOverlay" style="justify-content: center; align-items: center; display: none; background-color: black">
-                <label text="P A U S E D"></label>
+            <div id="pauseOverlay" class="centerItems noSelect" style="color: white; display: none; background-color: black; background-color: rgba(0,0,0,0.5); font-size: 100px;">
+                P A U S E D
             </div>
+
+            <div id="statsDiv">
+                    <label id="stats" class="noSelect">TIME</label>
+                </div>
+
             <div id="playMode"
-                style="height:100%; width:100%; display: flex; justify-content: center; align-items: center;">
-                <canvas id="canvas"></canvas>
+                style="height:100%; width:100%; display: flex; ">
+                
+                <canvas id="canvas" style="border-radius: 0px 60px 60px 0px;"></canvas>
             </div>
         </div>
 

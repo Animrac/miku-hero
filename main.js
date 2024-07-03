@@ -7,10 +7,13 @@ class Main {
         this.step = 80; //How many ms make up one vertical slice (aka, a square)
         this.blockSize = 40; //Horizontal space taken up by each vertical slice.
         this.songDuration = 200_000; //Song length in ms. (Hardcoded close-enough value atm)
+
+        this.lastTime = -1;
         
         //init canvas
         this.canvasInit();
-        this.lyricFloor = this.canvas.height - 120 //Set lowest point for lyrics
+        this.lyricFloor = this.canvas.height - 220 //Set lowest point for lyrics
+        //this.lyricFloor = this.canvas.height - 120 //Set lowest point for lyrics
 
         //init player
         this.playerInit();
@@ -58,7 +61,8 @@ class Main {
     playerInit() {
         this.player = new Player({
             app: { token: "JY0mLoHiX3lPTJaS" },
-            mediaElement: document.getElementById("media")
+            mediaElement: document.getElementById("media"),
+            mediaSourceElement: document.getElementById("videoDiv")
         });
 
         this.player.addListener({
@@ -70,6 +74,7 @@ class Main {
             },
             onTimeUpdate: (pos) => this.updateTime(pos),
             onTimerReady: () => {
+                document.getElementById("pauseOverlay").style.display = "none"
                 document.getElementById("loadingOverlay").style.display = "none"
             }
         });
@@ -92,34 +97,52 @@ class Main {
     buttonInit() {
         let playOverlay = document.getElementById("playOverlay");
         let pauseOverlay = document.getElementById("pauseOverlay");
-        let buttonPlayPause = document.getElementById("buttonPlayPause");
+        let statsDiv = document.getElementById("statsDiv");
+        let buttonPause = document.getElementById("buttonPause");
+        let buttonPlay = document.getElementById("buttonPlay");
+        let buttonReset = document.getElementById("buttonReset");
+        let buttonHelp = document.getElementById("buttonHelp");
         let canvas = document.getElementById("canvas");
 
         playOverlay.addEventListener("click", () => {
             this.player.requestPlay();
             playOverlay.style.display = "none"
+            statsDiv.style.display = "flex"
         });
 
-        buttonPlayPause.addEventListener("click", () => {
+        buttonPause.addEventListener("click", () => {
             if (this.player.isPlaying) {
                 this.player.requestPause();
-                buttonPlayPause.src = "images/playbutton.png";
+                // buttonPlayPause.src = "images/playbutton.png";
                 clearInterval(this.user.walkingLoop);
-                pauseOverlay.style.display = "contents";
-            } else {
+                pauseOverlay.style.display = "flex";
+            }
+        });
+
+        buttonPlay.addEventListener("click", () => {
+            if (!this.player.isPlaying) {
                 this.player.requestPlay();
                 this.user.walkingLoop = setInterval(() => {
                     if(this.user.counter == 9) {this.user.counter = 1};
                     this.user.puhplaya.src = 'images/rin/rin' + this.user.counter + '.png';
                     this.user.counter++;
+                    pauseOverlay.style.display = "none";
+                    // buttonPlayPause.src = "images/pausebutton.png";
                 }, 70);
-                pauseOverlay.style.display = "none";
-                buttonPlayPause.src = "images/pausebutton.png";
             }
         });
 
-        //click the canvas two jwump owo
-        canvas.addEventListener("click", () => {
+        buttonReset.addEventListener("click", () => {
+            window.location.reload();
+        });
+
+        buttonHelp.addEventListener("click", () => {
+            alert("we are very cute :3");
+        });
+
+        
+        //click the thing on top of the canvas two jwump owo
+        statsDiv.addEventListener("click", () => {
             if (this.player.isPlaying) {
                 this.user.jump(this.timeStamp);
             }
@@ -224,6 +247,9 @@ class Main {
      */
     updateTime(timeStamp) {
         this.timeStamp = timeStamp;
+        let seconds = Math.floor((this.timeStamp / 1000) % 60);
+        let minutes = Math.floor((this.timeStamp / (1000 * 60)) % 60);
+        document.getElementById("stats").textContent = minutes + ":" + seconds;
 
         //If we're within 3s of end, mark it.
         if (Math.abs(this.timeStamp - this.songDuration) < 2000) this.playFinish = true;
@@ -239,6 +265,12 @@ class Main {
             this.showBg();
             this.showLyric();
             this.showUser();
+
+            this.lastTime = this.timeStamp;
+            // const beats = this.player.findBeatChange(this.lastTime, this.timeStamp);
+            // if (beats.entered.length > 0) {
+            //         bar.className = "active beat";
+            //     }
 
             //What to draw when play is complete.
         } else if (this.playFinish) {
@@ -347,6 +379,7 @@ class Main {
 
         this.user.draw(this.context)
     }
+
 }
 
 /**
