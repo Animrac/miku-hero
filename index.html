@@ -16,7 +16,7 @@
         <img id="loadingGraphic" src="images/loading.gif">
     </div>
 
-    <!--<div id="media"></div>-->
+    <div id="media"></div>
 
     <div class="flex" style="flex-direction: row; display: flex; width: 100%; height: 98%; padding: 0; margin:0">
         <div id="sideControlsLeft"
@@ -42,15 +42,27 @@
                 <div class="grid-item"></div>
             </div>
 
-            <!-- <div id="lyricsDiv" style="border: solid black 10px; height: 30%; margin: 10px; "></div> -->
+            <div id="lyricsDiv" style="border: solid black 5px; height: 10%; margin: 10px; display: flex; flex-direction: row; justify-content: center;
+            align-items: end;">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
 
             <!--<div id="videoDiv" style="border: solid black 10px; height: 10%; margin: 10px; "></div>-->
 
             <!-- <div id="volumeDiv" style="text-align: center; border: solid black 3px"> -->
-            <div id="volumeDiv" style="flex-direction: column; text-align: center; width: 50%; display: flex; height: 40%;">
-                <input type="range" id="volumeSlider" min="0" max="100" step="1" value="3" style="accent-color: black; height: 85%; writing-mode: vertical-lr; direction: rtl;
-    appearance: slider-vertical; " orient="vertical">
-                <img src="images/volumeIcon.png" />
+            <!-- <div id="volumeDiv" style="flex-direction: column; text-align: center; width: 50%; display: flex; height: 40%;"> -->
+                <div id="volumeDiv" class="centerItems" style="flex-direction: row; margin: 5px">
+                <!-- <input type="range" id="volumeSlider" min="0" max="100" step="1" value="3" style="accent-color: black; height: 85%; writing-mode: vertical-lr; direction: rtl;
+    appearance: slider-vertical; " orient="vertical"> -->
+                <img src="images/volumeIcon.png" style="height: 70%; width: 70%;" />
+                <input type="range" id="volumeSlider" min="0" max="100" step="1" value="3" style="accent-color: black; height: 85%;">
             </div>
 
             <!-- <div id="buttonHeroDiv" style="text-align: center;">
@@ -70,7 +82,7 @@
         <div id="canvasDiv"
             style="flex-direction: column; border: solid black 5px; height: 100%; width: 85%; padding-bottom: 2%; padding: 0; margin: 5px; background-color: white; border-radius: 0px 65px 65px 0px; ">
             
-            <div id="bar"></div>
+            <!-- <div id="bar"></div> -->
 
             <div id="playOverlay" class="centerItems">
                 <img id="mouseGraphic" src="images/mouse.gif">
@@ -80,8 +92,8 @@
             </div>
 
             <div id="statsDiv">
-                    <label id="stats" class="noSelect">TIME</label>
-                </div>
+                <label id="stats" class="noSelect">TIME</label>
+            </div>
 
             <div id="playMode"
                 style="height:100%; width:100%; display: flex; ">

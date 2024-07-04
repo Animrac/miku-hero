@@ -74,8 +74,8 @@ class Main {
             },
             onTimeUpdate: (pos) => this.updateTime(pos),
             onTimerReady: () => {
-                document.getElementById("pauseOverlay").style.display = "none"
-                document.getElementById("loadingOverlay").style.display = "none"
+                document.getElementById("pauseOverlay").style.display = "none";
+                document.getElementById("loadingOverlay").style.display = "none";
             }
         });
     }
@@ -104,32 +104,30 @@ class Main {
         let buttonHelp = document.getElementById("buttonHelp");
         let canvas = document.getElementById("canvas");
 
+        buttonPause.disabled = true;
+        buttonPlay.disabled = true;
+        buttonPlay.style.opacity = 0.5;
+        buttonPause.style.opacity = 0.5;
+
         playOverlay.addEventListener("click", () => {
             this.player.requestPlay();
             playOverlay.style.display = "none"
             statsDiv.style.display = "flex"
+            buttonPlay.style.opacity = 0.5;
+            buttonPause.style.opacity = 1;
+            buttonPause.disabled = false;
+            buttonPlay.disabled = false;
+            const bars = document.querySelectorAll(".bar");
+            for (let i = 0; i < bars.length; i++)
+                bars.forEach(each => each.style.animationDuration = `${Math.random() * (0.25) + 0.25}s`);
         });
 
         buttonPause.addEventListener("click", () => {
-            if (this.player.isPlaying) {
-                this.player.requestPause();
-                // buttonPlayPause.src = "images/playbutton.png";
-                clearInterval(this.user.walkingLoop);
-                pauseOverlay.style.display = "flex";
-            }
+            this.toPause();
         });
 
         buttonPlay.addEventListener("click", () => {
-            if (!this.player.isPlaying) {
-                this.player.requestPlay();
-                this.user.walkingLoop = setInterval(() => {
-                    if(this.user.counter == 9) {this.user.counter = 1};
-                    this.user.puhplaya.src = 'images/rin/rin' + this.user.counter + '.png';
-                    this.user.counter++;
-                    pauseOverlay.style.display = "none";
-                    // buttonPlayPause.src = "images/pausebutton.png";
-                }, 70);
-            }
+            this.toPlay();
         });
 
         buttonReset.addEventListener("click", () => {
@@ -137,10 +135,10 @@ class Main {
         });
 
         buttonHelp.addEventListener("click", () => {
-            alert("we are very cute :3");
+            this.toPause();
+            alert(":3");
         });
 
-        
         //click the thing on top of the canvas two jwump owo
         statsDiv.addEventListener("click", () => {
             if (this.player.isPlaying) {
@@ -249,7 +247,12 @@ class Main {
         this.timeStamp = timeStamp;
         let seconds = Math.floor((this.timeStamp / 1000) % 60);
         let minutes = Math.floor((this.timeStamp / (1000 * 60)) % 60);
-        document.getElementById("stats").textContent = minutes + ":" + seconds;
+        // eventually i want there to be different worlds/levels, so those would be displayed when the time hits 15 or 30 seconds everytime
+        if (seconds < 10) {
+            document.getElementById("stats").textContent = "0" + minutes + ":0" + seconds;
+        } else {        
+            document.getElementById("stats").textContent = "0" + minutes + ":" + seconds;
+        }
 
         //If we're within 3s of end, mark it.
         if (Math.abs(this.timeStamp - this.songDuration) < 2000) this.playFinish = true;
@@ -338,7 +341,9 @@ class Main {
             } else { //Show a block instead.
                 this.context.fillStyle = "black"; //Reset fade.
                 shading = 100;
-                this.context.fillText('⛾', i, lyPos); //Draw the square ▢
+                this.context.fillText('◼', i, lyPos); //Draw the square ▢
+                // this.context.fillText('⬛', i, lyPos); //Draw the square ▢
+                // this.context.fillText('⛾', i, lyPos); //Draw the square ▢
                 //this.context.fillRect((i / step) * blockSize, blockBaseY, 39, 39); //Draw a square
             }
 
@@ -378,6 +383,39 @@ class Main {
         }
 
         this.user.draw(this.context)
+    }
+
+    toPause() {
+        if (this.player.isPlaying) {
+            this.player.requestPause();
+            // buttonPlayPause.src = "images/playbutton.png";
+            clearInterval(this.user.walkingLoop);
+            pauseOverlay.style.display = "flex";
+            buttonPause.style.opacity = 0.5;
+            buttonPlay.style.opacity = 1;
+            const bars = document.querySelectorAll(".bar");
+            for (let i = 0; i < bars.length; i++)
+                bars.forEach(each => each.style.animation = null);
+        }
+    }
+
+    toPlay() {
+        if (!this.player.isPlaying) {
+            this.player.requestPlay();
+            this.user.walkingLoop = setInterval(() => {
+                if(this.user.counter == 9) {this.user.counter = 1};
+                this.user.puhplaya.src = 'images/rin/rin' + this.user.counter + '.png';
+                this.user.counter++;
+                pauseOverlay.style.display = "none";
+                playOverlay.style.display = "none"
+                statsDiv.style.display = "flex"
+                buttonPlay.style.opacity = 0.5;
+                buttonPause.style.opacity = 1;
+            }, 70);
+            const bars = document.querySelectorAll(".bar");
+            for (let i = 0; i < bars.length; i++)
+                bars.forEach(each => each.style.animationDuration = `${Math.random() * (0.25) + 0.25}s`);
+        }
     }
 
 }
