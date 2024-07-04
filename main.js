@@ -7,8 +7,6 @@ class Main {
         this.step = 80; //How many ms make up one vertical slice (aka, a square)
         this.blockSize = 40; //Horizontal space taken up by each vertical slice.
         this.songDuration = 200_000; //Song length in ms. (Hardcoded close-enough value atm)
-
-        this.lastTime = -1;
         
         //init canvas
         this.canvasInit();
@@ -247,11 +245,15 @@ class Main {
         this.timeStamp = timeStamp;
         let seconds = Math.floor((this.timeStamp / 1000) % 60);
         let minutes = Math.floor((this.timeStamp / (1000 * 60)) % 60);
-        // eventually i want there to be different worlds/levels, so those would be displayed when the time hits 15 or 30 seconds everytime
-        if (seconds < 10) {
-            document.getElementById("stats").textContent = "0" + minutes + ":0" + seconds;
-        } else {        
-            document.getElementById("stats").textContent = "0" + minutes + ":" + seconds;
+        if (this.playFinish != true) {
+            // eventually i think it'd be cool if there were different worlds/levels, so those would be displayed when the time hits 15 or 30 seconds everytime
+            if (seconds < 10) {
+                document.getElementById("stats").textContent = "0" + minutes + ":0" + seconds;
+            } else {        
+                document.getElementById("stats").textContent = "0" + minutes + ":" + seconds;
+            }
+        } else {
+            document.getElementById("stats").textContent = "FIN";
         }
 
         //If we're within 3s of end, mark it.
@@ -268,12 +270,6 @@ class Main {
             this.showBg();
             this.showLyric();
             this.showUser();
-
-            this.lastTime = this.timeStamp;
-            // const beats = this.player.findBeatChange(this.lastTime, this.timeStamp);
-            // if (beats.entered.length > 0) {
-            //         bar.className = "active beat";
-            //     }
 
             //What to draw when play is complete.
         } else if (this.playFinish) {
