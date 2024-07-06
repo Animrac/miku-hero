@@ -3,8 +3,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
-    <title>Wheeeee</title>
-    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+    <title>SuperRin System</title>
+    <link rel="icon" type="image/x-icon" href="/images/rin.ico">
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 
@@ -32,7 +32,6 @@
             <div class="grid-container" id="buttonGrid" style="width: 100%; margin-top: 15%; margin-bottom: 15%">
                 <div class="grid-item"></div>
                 <input type="image" class="grid-item" src="images/pausebutton.png" name="pauseGame" id="buttonPause" style="width: 100%;" />
-                <!-- <input type="image" class="grid-item" src="images/pausebutton.png" name="pauseGame" id="buttonPlayPause" style="width: 100%;" /> -->
                 <div class="grid-item"></div>
                 <input type="image" class="grid-item" src="images/playbutton.png" name="playGame" id="buttonPlay" style="width: 100%;" />
                 <div class="grid-item"></div>
@@ -42,7 +41,7 @@
                 <div class="grid-item"></div>
             </div>
 
-            <div id="lyricsDiv" style="border: solid black 5px; height: 10%; margin: 10px; display: flex; flex-direction: row; justify-content: center;
+            <div id="lyricsDiv" style="border: solid black 5px; height: 10%; margin: 15px; display: flex; flex-direction: row; justify-content: center;
             align-items: end;">
                 <div class="bar"></div>
                 <div class="bar"></div>
@@ -54,36 +53,14 @@
                 <div class="bar"></div>
             </div>
 
-            <!--<div id="videoDiv" style="border: solid black 10px; height: 10%; margin: 10px; "></div>-->
-
-            <!-- <div id="volumeDiv" style="text-align: center; border: solid black 3px"> -->
-            <!-- <div id="volumeDiv" style="flex-direction: column; text-align: center; width: 50%; display: flex; height: 40%;"> -->
-                <div id="volumeDiv" class="centerItems" style="flex-direction: row; margin: 5px">
-                <!-- <input type="range" id="volumeSlider" min="0" max="100" step="1" value="3" style="accent-color: black; height: 85%; writing-mode: vertical-lr; direction: rtl;
-    appearance: slider-vertical; " orient="vertical"> -->
-                <img src="images/volumeIcon.png" style="height: 70%; width: 70%;" />
-                <input type="range" id="volumeSlider" min="0" max="100" step="1" value="3" style="accent-color: black; height: 85%;">
+            <div id="volumeDiv" class="centerItems" style="flex-direction: row; margin: 15px">
+                <img src="images/volumeIcon.png" style="width: 20%;" />
+                <input type="range" id="volumeSlider" min="0" max="100" step="1" value="3" style="accent-color: black; height: 85%; width:80%">
             </div>
-
-            <!-- <div id="buttonHeroDiv" style="text-align: center;">
-        <button type="buttonHero">HERO MODE BUT THIS MIGHT JUST BE SHOWN WHEN YOU DIE</button>
-    </div> -->
-            <!-- <div id="infoDiv" style="text-align: center; border: solid black 3px; margin: 5px 0px"> -->
-            <!-- <div id="infoDiv" style="text-align: center; flex-direction: column;">
-        <div>song title: </div>
-        <div id="song"> </div>
-        <div>song artist: </div>
-        <div id="artist"> </div>
-        <div>created by: </div>
-        <div id="creator"> </div>
-    </div> -->
         </div>
 
         <div id="canvasDiv"
             style="flex-direction: column; border: solid black 5px; height: 100%; width: 85%; padding-bottom: 2%; padding: 0; margin: 5px; background-color: white; border-radius: 0px 65px 65px 0px; ">
-            
-            <!-- <div id="bar"></div> -->
-
             <div id="playOverlay" class="centerItems">
                 <img id="mouseGraphic" src="images/mouse.gif">
             </div>
@@ -95,15 +72,10 @@
                 <label id="stats" class="noSelect">TIME</label>
             </div>
 
-            <div id="playMode"
-                style="height:100%; width:100%; display: flex; ">
-                
+            <div id="playMode" style="height:100%; width:100%; display: flex; ">
                 <canvas id="canvas" style="border-radius: 0px 60px 60px 0px;"></canvas>
             </div>
         </div>
-
-
-        <!-- <div id="sideControlsRight" style="flex-direction: column; width: 20%; height: 100%; padding: 0; margin: 5 0 0 5; border: solid black 3px;"></div> -->
 
     </div>
 </body>

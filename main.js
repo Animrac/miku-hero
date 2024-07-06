@@ -134,7 +134,8 @@ class Main {
 
         buttonHelp.addEventListener("click", () => {
             this.toPause();
-            alert(":3");
+            alert("Miku Programming Contest 2024\n\nControls:\nLeft-click the game window to jump!\nSurvive until the end of the game to save your beloved Len.\n\nCreated by:\nseburoh + MintGlow");
+            // alert("Miku Programming Contest 2024\n\nControls:\nLeft-click the game window to jump!\nSurvive and make it to the end of the game to save your beloved Len.\n\nCreated by:\nseburoh + MintGlow\n\nSong title: \n" + this.player.data.song.name + "\n\nSong by:\n" + this.player.data.song.artist.name);
         });
 
         //click the thing on top of the canvas two jwump owo
@@ -147,7 +148,7 @@ class Main {
 
     bgInit() {
         this.bg = new Image();
-        this.bg.src = "images/mountainorsomething.png"
+        this.bg.src = "images/mountainorsomething.png";
         this.scrollSpeed = 1;
         this.bgWidth = 0;
     }
