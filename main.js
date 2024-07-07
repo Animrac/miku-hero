@@ -101,6 +101,13 @@ class Main {
         let buttonReset = document.getElementById("buttonReset");
         let buttonHelp = document.getElementById("buttonHelp");
         let canvas = document.getElementById("canvas");
+        
+        // let buttonHero  = document.getElementById("buttonHero");
+        // this.heroMode = false;
+        
+        // buttonHero.addEventListener("click", () => {
+        //     this.heroMode ^= false;
+        // });
 
         buttonPause.disabled = true;
         buttonPlay.disabled = true;
