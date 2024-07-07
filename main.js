@@ -95,6 +95,7 @@ class Main {
     buttonInit() {
         let playOverlay = document.getElementById("playOverlay");
         let pauseOverlay = document.getElementById("pauseOverlay");
+        let gameOverOverlay = document.getElementById("gameOverOverlay");
         let statsDiv = document.getElementById("statsDiv");
         let buttonPause = document.getElementById("buttonPause");
         let buttonPlay = document.getElementById("buttonPlay");
@@ -102,12 +103,16 @@ class Main {
         let buttonHelp = document.getElementById("buttonHelp");
         let canvas = document.getElementById("canvas");
         
-        // let buttonHero  = document.getElementById("buttonHero");
-        // this.heroMode = false;
+        let buttonHero  = document.getElementById("buttonHero");
+        this.heroMode = false;
 
-        // buttonHero.addEventListener("click", () => {
-        //     this.heroMode ^= false;
-        // });
+        buttonHero.addEventListener("click", () => {
+            this.heroMode = !this.heroMode;
+            //testing stuff, add reset at current point logic here
+            console.log(this.heroMode);
+            gameOverOverlay.style.display = "none"
+            this.toPlay();
+        });
 
         buttonPause.disabled = true;
         buttonPlay.disabled = true;
@@ -384,11 +389,19 @@ class Main {
         if (this.player.isPlaying) {
             let collision = this.playerBlock ? this.playerBlock : this.lyricFloor;
             this.user.doJump(this.timeStamp, collision);
+
+            // When the user goes below the viewable canvas.
+            if (this.user.yy > this.canvas.height) {
+                this.toGameOver();
+            }
         }
 
         this.user.draw(this.context)
     }
 
+    /**
+     * Should pause the game.
+     */
     toPause() {
         if (this.player.isPlaying) {
             let pauseOverlay = document.getElementById("pauseOverlay");
@@ -407,6 +420,9 @@ class Main {
         }
     }
 
+    /**
+     * Should play the game.
+     */
     toPlay() {
         if (!this.player.isPlaying) {
             let playOverlay = document.getElementById("playOverlay");
@@ -430,6 +446,29 @@ class Main {
             for (let i = 0; i < bars.length; i++)
                 bars.forEach(each => each.style.animationDuration = `${Math.random() * (0.25) + 0.25}s`);
         }
+    }
+
+    /**
+     * Should pause the game.
+     */
+    toGameOver() {
+        let gameOverOverlay = document.getElementById("gameOverOverlay");
+        let buttonPause = document.getElementById("buttonPause");
+        let buttonPlay = document.getElementById("buttonPlay");
+        let buttonHero = document.getElementById("buttonHero");
+
+        this.player.requestPause();
+        clearInterval(this.user.walkingLoop);
+        gameOverOverlay.style.display = "flex";
+
+        buttonPause.style.opacity = 0.5;
+        buttonPlay.style.opacity = 0.5;
+        buttonPause.disabled = true;
+        buttonPlay.disabled = true;
+
+        const bars = document.querySelectorAll(".bar");
+        for (let i = 0; i < bars.length; i++)
+            bars.forEach(each => each.style.animation = null);
     }
 
 }
