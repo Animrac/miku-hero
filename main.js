@@ -104,7 +104,7 @@ class Main {
         
         // let buttonHero  = document.getElementById("buttonHero");
         // this.heroMode = false;
-        
+
         // buttonHero.addEventListener("click", () => {
         //     this.heroMode ^= false;
         // });
@@ -391,6 +391,10 @@ class Main {
 
     toPause() {
         if (this.player.isPlaying) {
+            let pauseOverlay = document.getElementById("pauseOverlay");
+            let buttonPause = document.getElementById("buttonPause");
+            let buttonPlay = document.getElementById("buttonPlay");
+            
             this.player.requestPause();
             // buttonPlayPause.src = "images/playbutton.png";
             clearInterval(this.user.walkingLoop);
@@ -405,6 +409,12 @@ class Main {
 
     toPlay() {
         if (!this.player.isPlaying) {
+            let playOverlay = document.getElementById("playOverlay");
+            let pauseOverlay = document.getElementById("pauseOverlay");
+            let statsDiv = document.getElementById("statsDiv");
+            let buttonPause = document.getElementById("buttonPause");
+            let buttonPlay = document.getElementById("buttonPlay");
+
             this.player.requestPlay();
             this.user.walkingLoop = setInterval(() => {
                 if(this.user.counter == 9) {this.user.counter = 1};
