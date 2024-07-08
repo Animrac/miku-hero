@@ -3,7 +3,7 @@ A platformer game inspired by the song SUPERHERO by Mellowcle for the Magical Mi
 
 We wanted to flex our creativity in how we would use the lyrics of the song in web app. After many days of thinking and talking we thought it would be really fun if the lyrics could be platforms! Letting Len's inspiring words keep the player alive, like a real superhero!
 
-At first we had thought, what if you had to jump over the gaps between lyrics? But then how would the player survive instrumental sections! So instead we thought to make the spaces into platforms too. We used little '⬛' at first, then we tried '⛾' while we considered what would look best. But we missed the black squares so we brought them back and kept them!
+At first we had thought, what if you had to jump over the gaps between lyrics? But then how would the player survive instrumental sections! So instead we thought to make the spaces into platforms too. We used little squares at first while we decided what would look best. We tried many things, including little ⛾ coffee cups ⛾! But we missed the black squares so we brought them back and kept them!
 
 From the start we also knew we wanted Len to be able to save the player if they fell! But we weren't sure what that would look like. If we had a platform game that was a flat line that would have been very boring! We didn't think of a solution until just two days before the deadline! Until then we hadn't done any work on a game over state at all! That was very scary to be so close to the deadline without such a key feature ready. The concept of Len lifting the player up and saving them is something we did our best to build with the time we had left!
 
