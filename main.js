@@ -159,9 +159,9 @@ class Main {
 
     bgInit() {
         this.bg = new Image();
-        this.bg.src = "images/mountainorsomethingold.png";
+        this.bg.src = "images/cloudbg.png";
         this.scrollSpeed = 1;
-        this.bgWidth = 2000;
+        this.bgWidth = 3840;
         this.bgLocationX = 0;
         this.bgLocationX2 = this.bgWidth;
     }
