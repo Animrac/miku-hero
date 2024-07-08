@@ -8,11 +8,7 @@ export class User {
         this.counter = 1;
 
         this.puhplaya = new Image();
-        this.walkingLoop = setInterval(() => {
-            if (this.counter == 9) { this.counter = 1 };
-            this.puhplaya.src = 'images/rin/rin' + this.counter + '.png';
-            this.counter++;
-        }, 70);
+        this.walkingLoop = setInterval(() => this.walkAnimation(), 70);
 
         this.jumpDuration = 400; //how long until you stop going up (ms)
         this.jumpPower = 30; //how high you jump (weird magic number)

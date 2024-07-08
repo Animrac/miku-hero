@@ -438,12 +438,7 @@ class Main {
             let buttonPlay = document.getElementById("buttonPlay");
 
             this.player.requestPlay();
-
-            this.user.walkingLoop = setInterval(() => {
-                if (this.user.counter == 9) { this.user.counter = 1 };
-                this.user.puhplaya.src = 'images/rin/rin' + this.user.counter + '.png';
-                this.user.counter++;
-            }, 70);
+            this.user.walkingLoop = setInterval(() => this.user.walkAnimation(), 70);
 
             pauseOverlay.style.display = "none";
             playOverlay.style.display = "none"
