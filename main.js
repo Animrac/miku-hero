@@ -159,9 +159,11 @@ class Main {
 
     bgInit() {
         this.bg = new Image();
-        this.bg.src = "images/mountainorsomething.png";
+        this.bg.src = "images/mountainorsomethingold.png";
         this.scrollSpeed = 1;
-        this.bgWidth = 0;
+        this.bgWidth = 2000;
+        this.bgLocationX = 0;
+        this.bgLocationX2 = this.bgWidth;
     }
 
     /***
@@ -378,12 +380,22 @@ class Main {
     }
 
     showBg() {
-        this.context.drawImage(this.bg, this.bgWidth, 0);
-        this.context.drawImage(this.bg, this.bgWidth + this.canvas.width, 0);
-        if (this.player.isPlaying || this.playFinish) this.bgWidth -= this.scrollSpeed; //Don't scroll if paused.
-        if (Math.abs(this.bgWidth) >= this.canvas.width) {
-            this.bgWidth = 0;
-        }
+        if (this.player.isPlaying || this.playFinish) {
+            if (this.bgLocationX < -this.bgWidth) {
+                this.bgLocationX = this.bgWidth - this.scrollSpeed;
+            } else {
+                this.bgLocationX -= this.scrollSpeed;
+            }
+            
+            if (this.bgLocationX2 < -this.bgWidth) {
+                this.bgLocationX2 = this.bgWidth - this.scrollSpeed;
+            } else {
+                this.bgLocationX2 -= this.scrollSpeed;
+            }
+
+        } //don't scroll if paused.
+        this.context.drawImage(this.bg, this.bgLocationX, 0);
+        this.context.drawImage(this.bg, this.bgLocationX2, 0);
     }
 
     showUser() {
