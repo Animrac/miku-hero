@@ -6,14 +6,14 @@ export class User {
         this.xx = 0;
         this.yy = initialHeight - this.height - 80;
         this.counter = 1;
-        
+
         this.puhplaya = new Image();
         this.walkingLoop = setInterval(() => {
-            if(this.counter == 9) {this.counter = 1};
+            if (this.counter == 9) { this.counter = 1 };
             this.puhplaya.src = 'images/rin/rin' + this.counter + '.png';
             this.counter++;
         }, 70);
-        
+
         this.jumpDuration = 400; //how long until you stop going up (ms)
         this.jumpPower = 30; //how high you jump (weird magic number)
         this.upward = false; //flag for if jump is going upward.
@@ -21,6 +21,12 @@ export class User {
         this.jumpTime = 0; //time that the apex of jump is reached.
         this.prevTime = 0; //previous time recorded so we don't update jumps on framerate.
         this.finalJump = vidDuration - (this.jumpDuration * 3); //last timestamp we should allow a jump.
+    }
+
+    walkAnimation() {
+        if (this.counter == 9) { this.counter = 1 };
+        this.puhplaya.src = 'images/rin/rin' + this.counter + '.png';
+        this.counter++;
     }
 
     /**
@@ -57,14 +63,14 @@ export class User {
             if (this.jumpTime < time) {
                 this.upward = false;
                 this.walkingLoop = setInterval(() => {
-                    if(this.counter == 9) {this.counter = 1};
+                    if (this.counter == 9) { this.counter = 1 };
                     this.puhplaya.src = 'images/rin/rin' + this.counter + '.png';
                     this.counter++;
                 }, 70);
             };
 
-        //If our jump power isn't in range of the floor, fall.
-        //Jump power used instead of == equality to account for weirdness.
+            //If our jump power isn't in range of the floor, fall.
+            //Jump power used instead of == equality to account for weirdness.
         } else if (Math.abs(this.yy - floor) > (this.jumpPower * 0.6)) {
             this.yy += this.jumpPower * Math.max(0.05, this.jumpScale);
             this.jumpScale /= 0.9;

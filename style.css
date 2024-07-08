@@ -1,6 +1,8 @@
 @font-face {
     font-family: 'PixelMplus10-Regular';
-    src: url('PixelMplus10-Regular.ttf') format('truetype');
+    src: url('./PixelMplus10-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
 }
 
 .grid-container {

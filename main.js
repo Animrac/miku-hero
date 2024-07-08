@@ -7,7 +7,7 @@ class Main {
         this.step = 80; //How many ms make up one vertical slice (aka, a square)
         this.blockSize = 40; //Horizontal space taken up by each vertical slice.
         this.songDuration = 200_000; //Song length in ms. (Hardcoded close-enough value atm)
-        
+
         //init canvas
         this.canvasInit();
         this.lyricFloor = this.canvas.height - 220 //Set lowest point for lyrics
@@ -67,8 +67,6 @@ class Main {
             onAppReady: (app) => this.loadSong(app),
             onVideoReady: (v) => {
                 this.loadLyrics(v);
-                // document.getElementById("artist").textContent = this.player.data.song.artist.name;
-                // document.getElementById("song").textContent = this.player.data.song.name;
             },
             onTimeUpdate: (pos) => this.updateTime(pos),
             onTimerReady: () => {
@@ -102,15 +100,16 @@ class Main {
         let buttonReset = document.getElementById("buttonReset");
         let buttonHelp = document.getElementById("buttonHelp");
         let canvas = document.getElementById("canvas");
-        
-        let buttonHero  = document.getElementById("buttonHero");
+
+        let buttonHero = document.getElementById("buttonHero");
         this.heroMode = false;
 
         buttonHero.addEventListener("click", () => {
             this.heroMode = !this.heroMode;
-            //testing stuff, add reset at current point logic here
-            console.log(this.heroMode);
+
             gameOverOverlay.style.display = "none"
+            this.gameOver = false;
+            this.user.yy = 0;
             this.toPlay();
         });
 
@@ -262,7 +261,7 @@ class Main {
             // eventually i think it'd be cool if there were different worlds/levels, so those would be displayed when the time hits 15 or 30 seconds everytime
             if (seconds < 10) {
                 document.getElementById("stats").textContent = "0" + minutes + ":0" + seconds;
-            } else {        
+            } else {
                 document.getElementById("stats").textContent = "0" + minutes + ":" + seconds;
             }
         } else {
@@ -278,7 +277,7 @@ class Main {
      */
     updateFrame() {
         //What to draw during normal play.
-        if ((this.player.isPlaying || this.timeStamp > 0) && !this.playFinish) {
+        if ((this.player.isPlaying || this.timeStamp > 0) && !(this.playFinish || this.gameOver)) {
             this.context.clearRect(0, 0, this.canvas.width, this.canvas.height); //Clear screen.
             this.showBg();
             this.showLyric();
@@ -291,6 +290,8 @@ class Main {
             this.showLyric();
             this.showUser();
             this.context.fillText('Thank you for playing!', this.canvas.width * 0.5, this.canvas.height * 0.5);
+        } else if (this.gameOver) {
+            this.toGameOver();
         }
 
         //may i have another?
@@ -392,7 +393,12 @@ class Main {
 
             // When the user goes below the viewable canvas.
             if (this.user.yy > this.canvas.height) {
-                this.toGameOver();
+                if (this.heroMode) {
+                    this.user.yy = 0;
+                    this.user.jumpScale = 0.2;
+                } else {
+                    this.gameOver = true;
+                }
             }
         }
 
@@ -407,9 +413,9 @@ class Main {
             let pauseOverlay = document.getElementById("pauseOverlay");
             let buttonPause = document.getElementById("buttonPause");
             let buttonPlay = document.getElementById("buttonPlay");
-            
+
             this.player.requestPause();
-            // buttonPlayPause.src = "images/playbutton.png";
+
             clearInterval(this.user.walkingLoop);
             pauseOverlay.style.display = "flex";
             buttonPause.style.opacity = 0.5;
@@ -432,16 +438,21 @@ class Main {
             let buttonPlay = document.getElementById("buttonPlay");
 
             this.player.requestPlay();
+
             this.user.walkingLoop = setInterval(() => {
-                if(this.user.counter == 9) {this.user.counter = 1};
+                if (this.user.counter == 9) { this.user.counter = 1 };
                 this.user.puhplaya.src = 'images/rin/rin' + this.user.counter + '.png';
                 this.user.counter++;
-                pauseOverlay.style.display = "none";
-                playOverlay.style.display = "none"
-                statsDiv.style.display = "flex"
-                buttonPlay.style.opacity = 0.5;
-                buttonPause.style.opacity = 1;
             }, 70);
+
+            pauseOverlay.style.display = "none";
+            playOverlay.style.display = "none"
+            statsDiv.style.display = "flex"
+            buttonPlay.style.opacity = 0.5;
+            buttonPause.style.opacity = 1;
+            buttonPause.disabled = false;
+            buttonPlay.disabled = false;
+
             const bars = document.querySelectorAll(".bar");
             for (let i = 0; i < bars.length; i++)
                 bars.forEach(each => each.style.animationDuration = `${Math.random() * (0.25) + 0.25}s`);
