@@ -29,6 +29,13 @@ class Main {
 
         this.user = new User(this, this.lyricFloor, this.songDuration);
 
+        //Miku saves Rin, so that Rin can save Len!
+        this.hero = new Image();
+        this.hero.src = "images/herobw.png"; 
+        this.heroX = 50;
+        this.heroY = this.canvas.height; 
+        this.heroAnimationToggle = false;
+
         //kickstart frame updates
         this.updateFrame();
     }
@@ -161,7 +168,7 @@ class Main {
         this.bg = new Image();
         this.bg.src = "images/cloudbg.png";
         this.scrollSpeed = 1;
-        this.bgWidth = 3840;
+        this.bgWidth = 2000;
         this.bgLocationX = 0;
         this.bgLocationX2 = this.bgWidth;
     }
@@ -283,6 +290,17 @@ class Main {
             this.context.clearRect(0, 0, this.canvas.width, this.canvas.height); //Clear screen.
             this.showBg();
             this.showLyric();
+            if (this.heroAnimationToggle) {
+                if (this.heroMode) { //draw hero miku
+                    // this.context.drawImage(this.hero, 0, 0);
+                    this.context.drawImage(this.hero, this.heroX, this.heroY);
+                    this.heroY -= 60;
+                    if (this.heroY < -200) {
+                        this.heroY = this.canvas.height; 
+                        this.heroAnimationToggle = false;
+                    }
+                }
+            }
             this.showUser();
 
             //What to draw when play is complete.
@@ -405,6 +423,7 @@ class Main {
 
             // When the user goes below the viewable canvas.
             if (this.user.yy > this.canvas.height) {
+                this.heroAnimationToggle = true;
                 if (this.heroMode) {
                     this.user.yy = 0;
                     this.user.jumpScale = 0.2;
