@@ -151,8 +151,7 @@ class Main {
 
         buttonHelp.addEventListener("click", () => {
             this.toPause();
-            alert("Miku Programming Contest 2024\n\nControls:\nLeft-click the game window to jump!\nSurvive until the end of the game to save your beloved Len.\n\nCreated by:\nseburoh + MintGlow");
-            // alert("Miku Programming Contest 2024\n\nControls:\nLeft-click the game window to jump!\nSurvive and make it to the end of the game to save your beloved Len.\n\nCreated by:\nseburoh + MintGlow\n\nSong title: \n" + this.player.data.song.name + "\n\nSong by:\n" + this.player.data.song.artist.name);
+            alert("Miku Programming Contest 2024\n\nControls:\nLeft-click the game window to jump!\nLen's words of encouragement are keeping you up! It's okay if you trip and fall, Len will be there to help you right back up! Don't lose hope!\n\nCreated by:\nseburoh + MintGlow");
         });
 
         //click the thing on top of the canvas two jwump owo
@@ -163,6 +162,9 @@ class Main {
         });
     }
 
+    /**
+     * Loads background image.
+     */
     bgInit() {
         this.bg = new Image();
         this.bg.src = "images/cloudbg.png";
@@ -235,9 +237,9 @@ class Main {
 
                 //keep in bounds.
                 if (newPos > this.lyricFloor) {
-                    newPos -= Math.abs(heightMod * jumpMod);
+                    newPos = rollingPos - (Math.abs(heightMod) * jumpMod);
                 } else if (newPos < 120) {
-                    newPos += Math.abs(heightMod * jumpMod);
+                    newPos = rollingPos + (Math.abs(heightMod) * jumpMod);
                 }
 
                 //set new position to use, reset counter
@@ -396,6 +398,9 @@ class Main {
         return pixel / this.blockSize * this.step;
     }
 
+    /**
+     * Handles visual display and movement of background image.
+     */
     showBg() {
         if (this.player.isPlaying || this.playFinish) {
             if (this.bgLocationX < -this.bgWidth) {
@@ -415,6 +420,9 @@ class Main {
         this.context.drawImage(this.bg, this.bgLocationX2, 0);
     }
 
+    /**
+     * Handles player collision and calls to functions for position calculation, sprite draw, and animation.
+     */
     showUser() {
         if (this.player.isPlaying) {
             let collision = this.playerBlock ? this.playerBlock : this.lyricFloor;
@@ -424,7 +432,7 @@ class Main {
             if (this.user.yy > this.canvas.height) {
                 this.heroAnimationToggle = true;
                 if (this.heroMode) {
-                    this.user.yy = 0;
+                    this.user.yy = -200;
                     this.user.jumpScale = 0.2;
                 } else {
                     this.gameOver = true;
