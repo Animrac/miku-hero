@@ -10,8 +10,7 @@ class Main {
 
         //init canvas
         this.canvasInit();
-        this.lyricFloor = this.canvas.height - 220 //Set lowest point for lyrics
-        //this.lyricFloor = this.canvas.height - 120 //Set lowest point for lyrics
+        this.lyricFloor = this.canvas.height - 120 //Set lowest point for lyrics
 
         //init player
         this.playerInit();
@@ -31,8 +30,8 @@ class Main {
 
         //Miku saves Rin, so that Rin can save Len!
         this.hero = new Image();
-        this.hero.src = "images/herobw.png"; 
-        this.heroX = 50;
+        this.hero.src = "images/heroRen.png"; 
+        this.heroX = 20;
         this.heroY = this.canvas.height; 
         this.heroAnimationToggle = false;
 
@@ -294,7 +293,7 @@ class Main {
                 if (this.heroMode) { //draw hero miku
                     // this.context.drawImage(this.hero, 0, 0);
                     this.context.drawImage(this.hero, this.heroX, this.heroY);
-                    this.heroY -= 60;
+                    this.heroY -= 40;
                     if (this.heroY < -200) {
                         this.heroY = this.canvas.height; 
                         this.heroAnimationToggle = false;
