@@ -1,5 +1,5 @@
 # SuperRin System
-A platformer game inspired by the song SUPERHERO by Mellowcle for the Magical Mirai 2024 Contest. This game was written completely from scratch. All of the jumping, animations, collision, it's all completely new code we wrote!
+A retro-styled platformer game inspired by the song SUPERHERO by Mellowcle for the Magical Mirai 2024 Contest. This game was written completely from scratch. All of the jumping, animations, collision, it's all completely new code we wrote!
 
 We wanted to flex our creativity in how we would use the lyrics of the song in web app. After many days of thinking and talking we thought it would be really fun if the lyrics could be platforms! Letting Len's inspiring words keep the player alive, like a real superhero!
 
@@ -9,8 +9,10 @@ From the start we also knew we wanted Len to be able to save the player if they 
 
 The game places the platforms randomly each time you play. If we had more time, making the game harder would have been really cool!
 
-Thank you so much for playing our game!
+Our program is based on our initial idea of a "superhero". In a video game, you are normally the hero. In this video game, you are not the hero, but the hero is the one helping you! We want to spread the message that it is okay to ask for help, and that anyone can be a superhero! 
 
+Thank you so much for playing our game!
+ 
 # Tech Stuff
 We have tested the game in the latest desktop versions of Chrome and Firefox.
 

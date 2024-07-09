@@ -19,6 +19,20 @@
     display: flex;
 }
 
+#sideControlsLeft {
+    flex-direction: column;
+    width: 15%;
+    height: 100%;
+    padding: 0;
+    margin: 5 0 0 5;
+    border: solid black 5px;
+    border-radius: 60px 0px 0px 60px;
+    background-color: white;
+    /* background-image: url("images/barcode.png");
+    background-repeat: no-repeat;
+    background-size: cover; */
+}
+
 #context {
     font-family: "PixelMplus10-Regular", sans-serif;
     color: #000000;
@@ -34,7 +48,6 @@
 }
 
 #playOverlay {
-    /* background: #c7c7c7; */
     text-align: center;
     font-family: 'PixelMplus10-Regular';
     position: fixed;
@@ -108,13 +121,6 @@ img {
         opacity: 1;
     }
 }
-
-/* #canvas{
-    animation: showLyrics 0.5s;
-}
-   */
-
-
 
 .bar {
     height: 1px;
